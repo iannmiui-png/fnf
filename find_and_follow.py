@@ -10,18 +10,19 @@ import os
 import time
 from atproto import Client
 
-HANDLE = os.environ["sophiemiu.bsky.social"]
-APP_PASSWORD = os.environ["62wx-arlz-g4ce-kf4j"]
+HANDLE = os.environ["BSKY_HANDLE"]
+APP_PASSWORD = os.environ["BSKY_APP_PASSWORD"]
 
 SEARCH_TERMS = [
     "mutual aid",
     "#mutualaid",
-    "mutual aid request",
+    "community fridge",
+    "mutual aid network",
 ]
 
 MAX_RESULTS_PER_TERM = 25
-MAX_NEW_FOLLOWS_PER_RUN = 30
-DELAY_BETWEEN_FOLLOWS = 5
+MAX_NEW_FOLLOWS_PER_RUN = 30   # cap so a single run can't mass-follow hundreds at once
+DELAY_BETWEEN_FOLLOWS = 5      # seconds, keeps you well under rate limits
 
 
 def collect_candidates(client, terms, max_per_term):
