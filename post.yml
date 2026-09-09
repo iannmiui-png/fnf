@@ -1,0 +1,29 @@
+name: Post to Bluesky
+
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: "Post text (max ~300 chars)"
+        required: true
+        type: string
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install atproto
+
+      - name: Publish post
+        env:
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+          POST_TEXT: ${{ inputs.text }}
+        run: python post.py
