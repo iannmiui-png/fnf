@@ -1,0 +1,26 @@
+name: Find and follow mutual aid accounts
+
+on:
+  workflow_dispatch: {}
+  # Uncomment to also run automatically, e.g. weekly:
+  # schedule:
+  #   - cron: "0 15 * * 1"  # every Monday 15:00 UTC
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install atproto
+
+      - name: Find and follow
+        env:
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+        run: python find_and_follow.py
