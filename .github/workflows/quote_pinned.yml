@@ -1,0 +1,29 @@
+name: Quote-post pinned post
+
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: "Message to add above the quoted pinned post"
+        required: true
+        type: string
+
+jobs:
+  quote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install atproto
+
+      - name: Quote-post pinned post
+        env:
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+          POST_TEXT: ${{ inputs.text }}
+        run: python quote_pinned.py
